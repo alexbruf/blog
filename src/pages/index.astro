@@ -1,14 +1,14 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PostList from "../components/PostList.astro";
-import type { IMarkdownFrontmatter } from "@/types";
-const allPosts = await Astro.glob<IMarkdownFrontmatter>("../pages/posts/*.md");
+import { getCollection } from "astro:content";
+const allPosts = await getCollection('posts');
 const filteredPosts = allPosts
   .sort(
     (a, b) =>
-      Date.parse(b.frontmatter.pubDate) - Date.parse(a.frontmatter.pubDate),
+      b.data.pubDate.getTime() - a.data.pubDate.getTime(),
   )
-  .slice(0, 10);
+  .slice(0, 10)
 const pageTitle = "intro";
 const description =
   "This is an attempt to visit every work-friendly coffee shop in NYC.";

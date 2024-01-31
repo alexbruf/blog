@@ -2,14 +2,12 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageTitle from "@/components/PageTitle.astro";
 import { spacesToDashes } from "@/helpers";
-const allPosts = await Astro.glob("../posts/*.md");
+import { getCollection } from "astro:content";
+const allPosts = await getCollection("posts");
 const tags = [
   ...new Set(
     allPosts
-      .flatMap((post) => [
-        post.frontmatter.tags || [],
-        post.frontmatter.location || [],
-      ])
+      .flatMap((post) => [post.data.tags || [], post.data.location || []])
       .flat(),
   ),
 ];
@@ -17,7 +15,7 @@ const pageTitle = "Tag Index";
 const description = "A list of all tags on alexbrufsky";
 ---
 
-<BaseLayout pageTitle={pageTitle} seo={{description, type: 'website'}}>
+<BaseLayout pageTitle={pageTitle} seo={{ description, type: "website" }}>
   <PageTitle title={pageTitle} />
   <div class="mx-auto max-w-3xl pt-10">
     <p>

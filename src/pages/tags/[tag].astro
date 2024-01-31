@@ -3,16 +3,16 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import PostList from "@/components/PostList.astro";
 import PageTitle from "@/components/PageTitle.astro";
 import { spacesToDashes } from "@/helpers";
-import type { GetStaticPaths, MarkdownInstance } from "astro";
-import type { IMarkdownFrontmatter } from "@/types";
+import type { GetStaticPaths } from "astro";
+import { getCollection, type CollectionEntry } from "astro:content";
 export const getStaticPaths: GetStaticPaths = async () =>  {
-  const allPosts = await Astro.glob("../posts/*.md");
+  const allPosts = await getCollection('posts');
   const uniqueTags = [
     ...new Set(
       allPosts
         .flatMap((post) => [
-          post.frontmatter.tags || [],
-          post.frontmatter.location || [],
+          post.data.tags || [],
+          post.data.location || [],
         ])
         .flat(),
     ),
@@ -20,8 +20,8 @@ export const getStaticPaths: GetStaticPaths = async () =>  {
   return uniqueTags.map((tag) => {
     const filteredPosts = allPosts.filter(
       (post) =>
-        post.frontmatter.tags.includes(tag) ||
-        post.frontmatter.location.includes(tag),
+        post.data.tags.includes(tag) ||
+        post.data.location.includes(tag),
     );
     return {
       params: { tag: spacesToDashes(tag) },
@@ -34,7 +34,7 @@ type Params = {
 	tag: string;
 };
 type Props = {
-	posts: MarkdownInstance<IMarkdownFrontmatter>[];
+	posts: CollectionEntry<'posts'>[];
 };
 const { tag } = Astro.params as Params;
 const { posts } = Astro.props as Props;

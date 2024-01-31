@@ -18,7 +18,7 @@ const { frontmatter } = Astro.props;
     type: "article",
     article: frontmatter,
     image: frontmatter.image
-      ? new URL(frontmatter.image?.url, Astro.url).toString()
+      ? new URL(frontmatter.image?.src.src, Astro.url).toString()
       : undefined,
   }}
 >
@@ -32,7 +32,7 @@ const { frontmatter } = Astro.props;
       title={frontmatter.title}
       link={Astro.url.toString()}
       location={frontmatter.location}
-      image={frontmatter.image?.url}
+      image={frontmatter.image.src}
       alt={frontmatter.image?.alt}
     />
     <Breadcrumb

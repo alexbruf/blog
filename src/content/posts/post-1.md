@@ -1,11 +1,10 @@
 ---
-layout: ../../layouts/MarkdownPostLayout.astro
 title: "SAVING SANTO STEFANO DI SESSANIO"
 pubDate: 2022-07-01
 description: "Is the fate of many unique, virtually abandoned villages in the unknown corner of Abruzzo sealed? Not if Swedish-Italian millionaire Daniele Kihlgren can help it. In 1999, a solitary motorbike trip proved to be a revelation for this modern-day idealist. By chance, he stumbled upon the almost-deserted hilltop village of Santo Stefano di Sessanio in the Gran Sasso and Monti della Laga National Park in the Apennines. He was struck speechless, not only by the outstanding beauty of the setting, but also because almost everything was untouched."
 author: "Astro Learner"
 image:
-  url: "https://www.classetouriste.be/wp-content/uploads/2018/01/antarctica-legend-small-1@2x.jpg"
+  src: "../../images/ant.jpg"
   alt: "The full Astro logo."
 tags: ["astro", "blogging", "learning in public"]
 location: ["Dumbo", "Brooklyn"]

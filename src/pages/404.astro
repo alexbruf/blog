@@ -1,10 +1,14 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
+import fourohfour from "@/images/404.svg";
+import fourohfourdark from "@/images/404dark.svg";
 ---
 
 <BaseLayout pageTitle="404 Page not Found">
   <div>
-    <img src="/404.svg" alt="404 Page not Found" />
+    <Image class="islight" src={fourohfour} alt="404 Page not Found" />
+    <Image class="isdark" src={fourohfourdark} alt="404 Page not Found" />
   </div>
 </BaseLayout>
 <meta slot="head" name="robots" content="noindex" />
@@ -12,7 +16,12 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
   img {
     width: 50vw;
     height: 50vh;
-		@apply invert-0 dark:invert;
+  }
+  .isdark {
+    @apply hidden dark:block;
+  }
+  .islight {
+    @apply block dark:hidden;
   }
   div {
     min-height: 60vh;

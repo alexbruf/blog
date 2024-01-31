@@ -1,8 +1,7 @@
 ---
-import type { MarkdownInstance } from "astro";
 import BlogPost from "../components/BlogPost.astro";
-import type { IMarkdownFrontmatter } from "@/types";
-type Props = {posts: MarkdownInstance<IMarkdownFrontmatter>[]} 
+import type { CollectionEntry } from "astro:content";
+type Props = {posts: CollectionEntry<'posts'>[]} 
 const {posts} = Astro.props;
 ---
 
@@ -11,12 +10,12 @@ const {posts} = Astro.props;
       posts.map((post) => (
         <li class="max-w-full flex flex-col items-center justify-center">
           <BlogPost
-            title={post.frontmatter.title}
-            location={post.frontmatter.location}
-            link={post.url || '#'}
-            tags={post.frontmatter.tags}
-            image={post.frontmatter.image?.url}
-            alt={post.frontmatter.image?.alt}
+            title={post.data.title}
+            location={post.data.location}
+            link={`/posts/${post.slug}` || '#'}
+            tags={post.data.tags}
+            image={post.data.image.src}
+            alt={post.data.image?.alt}
           />
         </li>
       ))

@@ -1,13 +1,15 @@
 ---
 import { spacesToDashes } from "@/helpers";
+import type { ImageMetadata } from "astro";
 type Props = {
   title: string;
   link: string;
   location?: string[];
-  image?: string;
+  image?: ImageMetadata;
   alt?: string;
 };
 const { title, link = "#", location = [], image, alt } = Astro.props;
+import { Image } from "astro:assets";
 const locationParts = Array.from(location || []);
 ---
 
@@ -26,11 +28,10 @@ const locationParts = Array.from(location || []);
   {
     image && (
       <a href={link}>
-        <img
-          loading="lazy"
+        <Image
           class="aspect-auto w-full object-contain"
           src={image}
-          alt={alt}
+          alt={alt || ""}
         />
       </a>
     )
@@ -39,7 +40,7 @@ const locationParts = Array.from(location || []);
 <style>
   h1 {
     font-kerning: auto;
-    @apply inline font-display text-5xl md:text-7xl leading-[80%] break-words md:break-normal;
+    @apply inline break-words font-display text-5xl leading-[80%] md:break-normal md:text-7xl;
   }
   a {
     @apply cursor-pointer font-body hover:text-primary;

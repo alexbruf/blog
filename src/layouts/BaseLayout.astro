@@ -3,6 +3,7 @@ import { SEO } from "astro-seo";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import type { ISEO } from "../types";
+import { format } from "date-fns";
 import "@/styles/global.css";
 type Props = {
   pageTitle: string;
@@ -60,7 +61,7 @@ const { pageTitle, seo = {} } = Astro.props;
         },
         article: seo.article
           ? {
-              publishedTime: seo.article.pubDate,
+              publishedTime: format(seo.article.pubDate, 'yyyy-MM-dd'),
               section: (seo.article.tags || [])[0],
               tags: seo.article.tags,
             }

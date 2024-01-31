@@ -2,12 +2,12 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageTitle from "@/components/PageTitle.astro";
 import PostList from "@/components/PostList.astro";
-import type { IMarkdownFrontmatter } from "@/types";
-const allPosts = await Astro.glob<IMarkdownFrontmatter>("../posts/*.md");
+import { getCollection } from "astro:content";
+const allPosts = await getCollection('posts');
 const years = [
   ...new Set(
     allPosts
-      .map((post) => new Date(post.frontmatter.pubDate))
+      .map((post) => post.data.pubDate)
       .flat()
       .map((date) => date.getFullYear())
       .map((y) => y.toString()),
@@ -17,7 +17,7 @@ const years = [
 const getPostsInYear = (year: string) =>
   allPosts.filter(
     (post) =>
-      new Date(post.frontmatter.pubDate).getFullYear().toString() === year,
+      post.data.pubDate.getFullYear().toString() === year,
   );
 const postsByYear = years.map((year) => ({
   year,

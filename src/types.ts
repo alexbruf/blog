@@ -1,13 +1,6 @@
-export interface IMarkdownFrontmatter {
-	title: string;
-	pubDate: string;
-	description?: string;
-	author?: string;
-	image?: {url: string, alt?: string};
-	tags: string[];
-	location?: string[];
-}
+import type { CollectionEntry } from "astro:content";
 
+export type IMarkdownFrontmatter  = CollectionEntry<'posts'>['data'];
 
 export interface ISEO {
 	title?: string;
