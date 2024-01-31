@@ -1,0 +1,40 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageTitle from "@/components/PageTitle.astro";
+import { spacesToDashes } from "@/helpers";
+const allPosts = await Astro.glob("../posts/*.md");
+const tags = [
+  ...new Set(
+    allPosts
+      .flatMap((post) => [
+        post.frontmatter.tags || [],
+        post.frontmatter.location || [],
+      ])
+      .flat(),
+  ),
+];
+const pageTitle = "Tag Index";
+const description = "A list of all tags on alexbrufsky";
+---
+
+<BaseLayout pageTitle={pageTitle} seo={{description, type: 'website'}}>
+  <PageTitle title={pageTitle} />
+  <div class="mx-auto max-w-3xl pt-10">
+    <p>
+      <ul class="divide-y">
+        {
+          tags.map((tag) => (
+            <li class="flex h-10 w-full items-center justify-center">
+              <a
+                class="block hover:text-primary hover:underline"
+                href={`/tags/${spacesToDashes(tag)}`}
+              >
+                {tag.toLowerCase()}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </p>
+  </div>
+</BaseLayout>

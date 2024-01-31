@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostList from "@/components/PostList.astro";
+import PageTitle from "@/components/PageTitle.astro";
+import { spacesToDashes } from "@/helpers";
+import type { GetStaticPaths, MarkdownInstance } from "astro";
+import type { IMarkdownFrontmatter } from "@/types";
+export const getStaticPaths: GetStaticPaths = async () =>  {
+  const allPosts = await Astro.glob("../posts/*.md");
+  const uniqueTags = [
+    ...new Set(
+      allPosts
+        .flatMap((post) => [
+          post.frontmatter.tags || [],
+          post.frontmatter.location || [],
+        ])
+        .flat(),
+    ),
+  ];
+  return uniqueTags.map((tag) => {
+    const filteredPosts = allPosts.filter(
+      (post) =>
+        post.frontmatter.tags.includes(tag) ||
+        post.frontmatter.location.includes(tag),
+    );
+    return {
+      params: { tag: spacesToDashes(tag) },
+      props: { posts: filteredPosts },
+    };
+  });
+}
+
+type Params = {
+	tag: string;
+};
+type Props = {
+	posts: MarkdownInstance<IMarkdownFrontmatter>[];
+};
+const { tag } = Astro.params as Params;
+const { posts } = Astro.props as Props;
+---
+
+<BaseLayout pageTitle={tag.toString()}>
+  <PageTitle title={tag} />
+  <PostList posts={posts} />
+</BaseLayout>

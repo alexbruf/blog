@@ -1,0 +1,25 @@
+---
+import BlogTop from "@/components/BlogTop.astro";
+import BlogBottom from "@/components/BlogBottom.astro";
+type Props = {
+  title: string;
+  link: string;
+  location?: string[];
+  tags?: string[];
+  image?: string;
+  alt?: string;
+};
+const { title, link, location, tags, image, alt } = Astro.props;
+---
+
+<div class="mx-auto inline-block w-fit space-y-2">
+  <BlogTop
+    link={link}
+    title={title}
+    location={location}
+    image={image}
+    alt={alt}
+  />
+  <BlogBottom tags={tags || []} title={title} />
+  <hr />
+</div>

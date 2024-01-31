@@ -1,0 +1,71 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageTitle from "@/components/PageTitle.astro";
+import PostList from "@/components/PostList.astro";
+import type { IMarkdownFrontmatter } from "@/types";
+const allPosts = await Astro.glob<IMarkdownFrontmatter>("../posts/*.md");
+const years = [
+  ...new Set(
+    allPosts
+      .map((post) => new Date(post.frontmatter.pubDate))
+      .flat()
+      .map((date) => date.getFullYear())
+      .map((y) => y.toString()),
+  ),
+];
+
+const getPostsInYear = (year: string) =>
+  allPosts.filter(
+    (post) =>
+      new Date(post.frontmatter.pubDate).getFullYear().toString() === year,
+  );
+const postsByYear = years.map((year) => ({
+  year,
+  posts: getPostsInYear(year),
+}));
+
+const pageTitle = "Archives";
+const description =
+  "A collection of all posts on alexbrufsky, organized by year.";
+---
+
+<BaseLayout pageTitle={pageTitle} seo={{ description, type: "website" }}>
+  <PageTitle title={pageTitle} />
+  <div class="mx-auto max-w-3xl space-y-2 pt-10">
+    <p class="text-center font-display">
+      Jump to:{" "}
+      {
+        years.map((y, i) => (
+          <>
+            <a
+              href={`#${y}`}
+              class="cursor-pointer hover:text-primary hover:underline"
+            >
+              {y}
+            </a>
+            {i < years.length - 1 && <>•</>}
+          </>
+        ))
+      }
+    </p>
+    <p>
+      <ul class="space-y-3">
+        {
+          postsByYear.map(({ year, posts }) => (
+            <li>
+              <h2
+                id={year.toString()}
+                class="mb-5 text-center font-display text-xl uppercase"
+              >
+                {year}
+              </h2>
+
+              <hr />
+              <PostList posts={posts} />
+            </li>
+          ))
+        }
+      </ul>
+    </p>
+  </div>
+</BaseLayout>

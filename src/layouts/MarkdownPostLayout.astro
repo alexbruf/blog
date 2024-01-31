@@ -1,0 +1,47 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import BlogTop from "@/components/BlogTop.astro";
+import BlogBottom from "@/components/BlogBottom.astro";
+import BlogPostJSONLD from "@/components/BlogPostJSONLD.astro";
+import type { IMarkdownFrontmatter } from "@/types";
+type Props = {
+  frontmatter: IMarkdownFrontmatter;
+};
+const { frontmatter } = Astro.props;
+---
+
+<BaseLayout
+  pageTitle={frontmatter.title}
+  seo={{
+    description: frontmatter.description,
+    type: "article",
+    article: frontmatter,
+    image: frontmatter.image
+      ? new URL(frontmatter.image?.url, Astro.url).toString()
+      : undefined,
+  }}
+>
+  <BlogPostJSONLD
+    title={frontmatter.title}
+    description={frontmatter.description}
+    article={frontmatter}
+  />
+  <div class="mx-auto w-full max-w-4xl px-20 pt-10">
+    <BlogTop
+      title={frontmatter.title}
+			link={Astro.url.toString()}
+      location={frontmatter.location}
+      image={frontmatter.image?.url}
+      alt={frontmatter.image?.alt}
+    />
+    <div class="block h-10 w-full"></div>
+    <article
+      class="prose w-full max-w-none font-serif dark:prose-invert lg:prose-xl first-letter:text-5xl prose-a:text-primary prose-a:no-underline prose-a:hover:underline"
+    >
+      <slot />
+    </article>
+    <BlogBottom title={frontmatter.title} tags={frontmatter.tags} />
+    <div class="block h-3 w-full"></div>
+    <hr />
+  </div>
+</BaseLayout>

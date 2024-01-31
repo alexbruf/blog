@@ -1,0 +1,50 @@
+---
+import { spacesToDashes } from "@/helpers";
+type Props = {
+  title: string;
+  link: string;
+  location?: string[];
+  image?: string;
+  alt?: string;
+};
+const { title, link = "#", location = [], image, alt } = Astro.props;
+const locationParts = Array.from(location || []);
+---
+
+<p>
+  <h1><a href={link}>{title}</a></h1>
+  <div class="inline-block">
+    {
+      locationParts &&
+        locationParts.map((l, i) => (
+          <a href={`/tags/${spacesToDashes(l)}`} class="subtitle">
+            {`${l}${i < locationParts.length - 1 ? ", " : ""}`}
+          </a>
+        ))
+    }
+  </div>
+  {
+    image && (
+      <a href={link}>
+        <img
+          loading="lazy"
+          class="aspect-auto w-full object-contain"
+          src={image}
+          alt={alt}
+        />
+      </a>
+    )
+  }
+</p>
+<style>
+  h1 {
+    font-kerning: auto;
+    @apply inline font-display text-7xl leading-[80%];
+  }
+  a {
+    @apply cursor-pointer font-body hover:text-primary;
+  }
+  .subtitle {
+    @apply text-sm;
+  }
+</style>

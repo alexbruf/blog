@@ -1,0 +1,47 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PostList from "../components/PostList.astro";
+import type { IMarkdownFrontmatter } from "@/types";
+const allPosts = await Astro.glob<IMarkdownFrontmatter>("../pages/posts/*.md");
+const filteredPosts = allPosts
+  .sort(
+    (a, b) =>
+      Date.parse(b.frontmatter.pubDate) - Date.parse(a.frontmatter.pubDate),
+  )
+  .slice(0, 10);
+const pageTitle = "intro";
+const description =
+  "This is an attempt to visit every work-friendly coffee shop in NYC.";
+---
+
+<BaseLayout pageTitle={pageTitle} seo={{ description, type: "website" }}>
+  <h3 class="pb-5">
+    This is an attempt to visit every work-friendly <span class="text-amber-600"
+      >coffee shop</span
+    > in NYC.
+    <br />
+    <br />
+    I have recently run into a LOT of free time.
+    <br />
+    But I have a lot of work to do and I'm going stir-crazy in my apartment.
+    <br />
+    So I'm going to try to do the impossible and survey the ever-changing landscape
+    of the bean breweries of New York City. Wish me luck!
+  </h3>
+
+  <PostList posts={filteredPosts} />
+</BaseLayout>
+<style>
+  h3 {
+    @apply text-center font-serif;
+    font-size: calc(max(2.35vw, 26px));
+  }
+</style>
+<script type="application/ld+json" slot="head">
+{
+	"@context" : "https://schema.org",
+	"@type" : "WebSite",
+	"name" : "alexbrufsky",
+	"url" : {Astro.url.toString()}
+}
+</script>

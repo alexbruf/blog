@@ -1,0 +1,70 @@
+---
+import type { ISEO } from "../types";
+import { spacesToDashes } from "../helpers";
+type Props = ISEO;
+const { title, description, article } = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: title || article?.title,
+  description: description || article?.description,
+  keywords: [...(article?.tags || []), ...(article?.location || [])],
+  author: {
+    "@type": "Person",
+    name: "Alex Brufsky",
+    url: "https://alexbrufsky.com",
+  },
+  /* the schema expects Date or DateTime using ISO 8601 format. For Date that is yyyy-MM-dd */
+  datePublished: article?.pubDate,
+  /* updateDate is optional frontmatter, so we conditionally add dateModified if it exists */
+};
+
+const allTags = [...(article?.tags || []), ...(article?.location || [])];
+
+const breadcrumbs = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Posts",
+        item: "https://example.com/posts",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: title || article?.title,
+      },
+    ],
+  },
+  ...allTags.map((t) => ({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Tags",
+        item: "https://example.com/tags",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: t,
+        item: `https://example.com/tags/${spacesToDashes(t).toLowerCase()}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: title || article?.title,
+      },
+    ],
+  })),
+];
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} slot="head" />
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbs)} slot="head" />

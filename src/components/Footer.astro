@@ -1,0 +1,39 @@
+---
+const socialLinks = [
+  {
+    name: "TikTok",
+    url: `https://tiktok.com/@nycbeans5`,
+  },
+  {
+    name: "Instagram",
+    url: `https://instagram.com/ny.beans`,
+  },
+  {
+    name: "Twitter",
+    url: `https://twitter.com/nycbean`,
+  },
+];
+---
+
+<footer>
+  <p>
+    Connect: {
+      socialLinks.map(({ name, url }, index) => (
+        <a href={url}>{`${name}${index < socialLinks.length - 1 ? ", " : ""}`}</a>
+      ))
+    } or write <a href="mailto:alex+beans@brufsky.org">inquiries@alexbrufsky.com</a>
+  </p>
+
+  <p class="copyright">copyright © 2024 Alex Brufsky</p>
+</footer>
+<style>
+  footer {
+    @apply mx-auto max-w-4xl p-4 text-center font-body text-lg font-light lowercase;
+  }
+  a {
+    @apply cursor-pointer hover:text-primary hover:underline;
+  }
+  .copyright {
+    @apply mt-2 text-xs text-gray-600;
+  }
+</style>

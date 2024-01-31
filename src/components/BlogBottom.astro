@@ -1,0 +1,59 @@
+---
+import { spacesToDashes } from '@/helpers';
+type Props = {
+	tags: string[];
+	title: string;
+};
+const { tags = [], title } = Astro.props;
+
+
+function getCurrentPageURL() {
+  return Astro.url.toString();
+}
+
+const networks = ["FACEBOOK", "TWITTER", "PINTEREST", "EMAIL"];
+const shareLinks: Record<(typeof networks)[number], string> = {
+  FACEBOOK: `https://www.facebook.com/sharer/sharer.php?u=${getCurrentPageURL()}`,
+  TWITTER: `https://twitter.com/intent/tweet?text=${title}&url=${getCurrentPageURL()}`,
+  PINTEREST: `https://pinterest.com/pin/create/button/?url=${getCurrentPageURL()}`,
+  EMAIL: `mailto:?subject=${title}&body=${getCurrentPageURL()}`,
+};
+---
+
+<div class="flex flex-col pt-14 font-sans text-xs uppercase">
+  <span>
+    <span class="first font-semibold">Share on</span>
+    <span class="space-x-1">
+      {
+        networks.map((n, i) => (
+          <a href={shareLinks[n]} class="social">{`${n}${
+            i < networks.length - 1 ? ", " : ""
+          }`}</a>
+        ))
+      }
+    </span>
+  </span>
+  <span>
+    <span class="first font-semibold">More about</span>
+    <span class="space-x-1">
+      {
+        tags.map((n, i) => (
+          <a href={`/tags/${spacesToDashes(n)}`} class="social">{`${n}${
+            i < tags.length - 1 ? "," : ""
+          }`}</a>
+        ))
+      }
+    </span>
+  </span>
+</div>
+<style>
+  .first {
+    @apply text-[0.6rem] tracking-wide mr-1;
+  }
+  a {
+    @apply cursor-pointer font-sans hover:text-primary;
+  }
+  a.social {
+    @apply cursor-pointer font-sans text-[0.6rem] text-gray-500 hover:underline;
+  }
+</style>

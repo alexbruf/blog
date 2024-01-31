@@ -1,0 +1,24 @@
+---
+import type { MarkdownInstance } from "astro";
+import BlogPost from "../components/BlogPost.astro";
+import type { IMarkdownFrontmatter } from "@/types";
+type Props = {posts: MarkdownInstance<IMarkdownFrontmatter>[]} 
+const {posts} = Astro.props;
+---
+
+<ul class="px-20 max-w-4xl mx-auto pt-10">
+    {
+      posts.map((post) => (
+        <li class="flex flex-col items-center justify-center">
+          <BlogPost
+            title={post.frontmatter.title}
+            location={post.frontmatter.location}
+            link={post.url || '#'}
+            tags={post.frontmatter.tags}
+            image={post.frontmatter.image?.url}
+            alt={post.frontmatter.image?.alt}
+          />
+        </li>
+      ))
+    }
+</ul>
