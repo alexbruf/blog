@@ -9,7 +9,7 @@ type Props = {
   alt?: string;
 };
 const { title, link = "#", location = [], image, alt } = Astro.props;
-import { Image } from "astro:assets";
+import { Picture } from "astro:assets";
 const locationParts = Array.from(location || []);
 ---
 
@@ -28,10 +28,12 @@ const locationParts = Array.from(location || []);
   {
     image && (
       <a href={link}>
-        <Image
-          class="aspect-auto w-full object-contain"
+        <Picture
+          class="object-contain"
           src={image}
           alt={alt || ""}
+          loading="eager"
+          decoding="sync"
         />
       </a>
     )

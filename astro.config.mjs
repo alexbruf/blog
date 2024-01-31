@@ -1,4 +1,4 @@
-import { defineConfig } from "astro/config";
+import { defineConfig, squooshImageService } from "astro/config";
 
 // TODO: change the site URL / get from env
 import tailwind from "@astrojs/tailwind";
@@ -11,6 +11,9 @@ import compress from "astro-compress";
 export default defineConfig({
   site: "https://alexbrufsky.com",
   output: "static",
+  image: {
+    service: squooshImageService(),
+  },
   integrations: [
     tailwind({
       nesting: true,
@@ -38,6 +41,8 @@ export default defineConfig({
         forward: ["dataLayer.push", "fbq"],
       },
     }),
-    compress(),
+    compress({
+      Image: false,
+    }),
   ],
 });

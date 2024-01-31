@@ -17,7 +17,7 @@ const description =
 ---
 
 <BaseLayout pageTitle={pageTitle} seo={{ description, type: "website" }}>
-  <h3 class="pb-5">
+  <h1 class="pb-5">
     This is an attempt to visit every work-friendly <span class="text-amber-600"
       >coffee shop</span
     > in NYC.
@@ -27,12 +27,12 @@ const description =
     So I'm going to try to do the impossible and survey the ever-changing landscape
     of the bean breweries of New York City. Wish me luck!
 		</span>
-  </h3>
+  </h1>
 
   <PostList posts={filteredPosts} />
 </BaseLayout>
 <style>
-  h3 {
+  h1 {
     @apply font-serif leading-5 md:leading-9 text-left md:text-center text-xl lg:text-[calc(max(2.35vw,26px))];
   }
 </style>
