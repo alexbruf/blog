@@ -1,0 +1,24 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout pageTitle="404 Page not Found">
+  <div>
+    <img src="/404.svg" alt="404 Page not Found" />
+  </div>
+</BaseLayout>
+<meta slot="head" name="robots" content="noindex" />
+<style>
+  img {
+    width: 50vw;
+    height: 50vh;
+		@apply invert-0 dark:invert;
+  }
+  div {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+</style>

@@ -18,7 +18,26 @@ export default defineConfig({
     }),
     sitemap(),
     react(),
-    partytown(),
+    partytown({
+      config: {
+        resolveUrl: (url, location) => {
+          const proxiedHosts = [
+            "googletagmanager.com",
+            "connect.facebook.net",
+            "googleads.g.doubleclick.net",
+          ];
+
+          if (proxiedHosts.includes(url.hostname)) {
+            const proxyUrl = new URL(location.origin);
+            proxyUrl.searchParams.append("url", url.href);
+            return proxyUrl;
+          }
+
+          return url;
+        },
+        forward: ["dataLayer.push", "fbq"],
+      },
+    }),
     compress(),
   ],
 });

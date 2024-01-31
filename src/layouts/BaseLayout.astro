@@ -9,6 +9,7 @@ type Props = {
   seo?: ISEO;
 };
 
+const isHome = Astro.url.pathname === "/";
 const { pageTitle, seo = {} } = Astro.props;
 ---
 
@@ -42,14 +43,14 @@ const { pageTitle, seo = {} } = Astro.props;
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <!-- other browsers -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-		<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-		<link rel="manifest" href="/site.webmanifest">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <SEO
-      title={pageTitle || seo.title}
-      titleTemplate={`%s | alexbrufsky`}
+      title={isHome ? "alexbrufsky" : pageTitle || seo.title}
+      titleTemplate={isHome ? "%s" : `%s | alexbrufsky`}
       description={seo.description}
       openGraph={{
         basic: {
@@ -80,15 +81,16 @@ const { pageTitle, seo = {} } = Astro.props;
   </head>
   <body class="tracking-wide">
     <Header />
-    <main class="md:mx-auto max-w-7xl p-4 md:p-10">
+    <main class="max-w-7xl p-4 md:mx-auto md:p-10">
       <slot />
     </main>
     <Footer />
     <!-- will put script here for menu and stuff -->
     <script
-      type="text/partytown"
+      async
+      defer
       src="https://www.googletagmanager.com/gtag/js?id=UA-46803283-3"></script>
-    <script type="text/partytown">
+    <script async>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
