@@ -6,10 +6,10 @@ type Props = {posts: MarkdownInstance<IMarkdownFrontmatter>[]}
 const {posts} = Astro.props;
 ---
 
-<ul class="px-20 max-w-4xl mx-auto pt-10">
+<ul class="px-2 md:px-20 max-w-4xl mx-auto pt-10">
     {
       posts.map((post) => (
-        <li class="flex flex-col items-center justify-center">
+        <li class="max-w-full flex flex-col items-center justify-center">
           <BlogPost
             title={post.frontmatter.title}
             location={post.frontmatter.location}

@@ -1,11 +1,14 @@
 ---
-
+import { MobileNavigation } from "@/components/MobileNavigation";
 ---
 
-<span class="space-x-2">
+<span class="hidden space-x-2 md:inline-block">
   <a href="/">Home</a>
   <a href="/posts/">Archives</a>
 </span>
+<div class="flex items-center justify-center md:hidden">
+  <MobileNavigation client:load />
+</div>
 <style>
   a {
     @apply cursor-pointer font-sans text-xs uppercase hover:text-primary hover:underline;

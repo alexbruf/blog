@@ -12,6 +12,8 @@ const filteredPosts = allPosts
 const pageTitle = "intro";
 const description =
   "This is an attempt to visit every work-friendly coffee shop in NYC.";
+
+
 ---
 
 <BaseLayout pageTitle={pageTitle} seo={{ description, type: "website" }}>
@@ -19,22 +21,25 @@ const description =
     This is an attempt to visit every work-friendly <span class="text-amber-600"
       >coffee shop</span
     > in NYC.
+
+		<br />
+		<span class="md:hidden inline-block">
     <br />
-    <br />
+		<br />
+		</span>
+		<span class="whitespace-normal md:whitespace-pre">
     I have recently run into a LOT of free time.
-    <br />
     But I have a lot of work to do and I'm going stir-crazy in my apartment.
-    <br />
     So I'm going to try to do the impossible and survey the ever-changing landscape
     of the bean breweries of New York City. Wish me luck!
+		</span>
   </h3>
 
   <PostList posts={filteredPosts} />
 </BaseLayout>
 <style>
   h3 {
-    @apply text-center font-serif;
-    font-size: calc(max(2.35vw, 26px));
+    @apply font-serif leading-5 md:leading-9 text-left md:text-center text-xl lg:text-[calc(max(2.35vw,26px))];
   }
 </style>
 <script type="application/ld+json" slot="head">

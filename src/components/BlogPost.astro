@@ -12,7 +12,7 @@ type Props = {
 const { title, link, location, tags, image, alt } = Astro.props;
 ---
 
-<div class="mx-auto inline-block w-fit space-y-2">
+<div class="inline-block flex-1 max-w-full space-y-2">
   <BlogTop
     link={link}
     title={title}

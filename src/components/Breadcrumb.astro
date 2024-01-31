@@ -1,0 +1,31 @@
+---
+type Props = { order?: { title: string; url: string, className?: string }[] };
+
+const { order = [], className = "" } = Astro.props;
+---
+
+<ul class={className}>
+  {
+    order.map(({ title, url }) => (
+      <li>
+        <a href={url}>{title}</a>
+      </li>
+    ))
+  }
+</ul>
+<style>
+	ul {
+		@apply flex items-center justify-start space-x-1;
+	}
+	li {
+		@apply after:content-['»'] text-gray-500 whitespace-pre;
+	}
+
+	li:last-child {
+		@apply after:content-none text-foreground uppercase truncate;
+	}
+
+	a {
+		@apply hover:text-primary hover:underline text-xs font-semibold uppercase truncate;
+	}
+</style>
